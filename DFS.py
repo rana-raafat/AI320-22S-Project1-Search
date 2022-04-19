@@ -1,6 +1,3 @@
-# pyamaze is the library that has everything related to the maze
-from pyamaze import maze, agent, COLOR
-
 
 def DFS(graph):
     node = (graph.rows, graph.cols)  # start cell
