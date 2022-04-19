@@ -4,10 +4,10 @@ def DFS(graph):
     explored = [node]  # visited
     frontier = [node]  # stack
     dfsPath = {}  # A dictonary to find the path from start to goal
-    dSearch = []
-    while len(frontier) > 0:
+    dSearch = []  # A list to show the searching
+    while frontier:
         currCell = frontier.pop()
-        dSearch.append(currCell)  # to show the searching
+        dSearch.append(currCell)
         if currCell == graph._goal:
             break
         poss = 0
