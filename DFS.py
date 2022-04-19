@@ -1,12 +1,12 @@
 
 def DFS(graph):
     node = (graph.rows, graph.cols)  # start cell
-    explored = [node]  # visited
-    frontier = [node]  # stack
+    visited = [node]  # visited
+    stack = [node]  # stack
     dfsPath = {}  # A dictonary to find the path from start to goal
     dSearch = []  # A list to show the searching
-    while frontier:
-        currCell = frontier.pop()
+    while stack:
+        currCell = stack.pop()
         dSearch.append(currCell)
         if currCell == graph._goal:
             break
@@ -23,12 +23,12 @@ def DFS(graph):
                     neighbour = (currCell[0]-1, currCell[1])
                 if d == 'S':
                     neighbour = (currCell[0]+1, currCell[1])
-                if neighbour in explored:
+                if neighbour in visited:
                     continue
                 poss += 1
-                explored.append(neighbour)
-                frontier.append(neighbour)
-                # We store the currCell as value and the neigbour as key
+                visited.append(neighbour)
+                stack.append(neighbour)
+                # We store the currCell as value and the neighbour as key
                 dfsPath[neighbour] = currCell
         if poss > 1:
             graph.markCells.append(currCell)
