@@ -6,10 +6,12 @@ def ucs(graph, start, goal):
     queue[start] = 0  # we make the start cell's cost = 0
     visited = {}
     ucsPath = {}
+    searchPath = [start]
     while queue:
         # We get the cell with the minimum cost
         currCell = min(queue, key=queue.get)
         visited[currCell] = queue[currCell]
+        searchPath.append(currCell)
         if currCell == goal:
             break
         for d in 'ESNW':
@@ -29,6 +31,7 @@ def ucs(graph, start, goal):
                 if cost < queue[neighbour]:
                     queue[neighbour] = cost
                     ucsPath[neighbour] = currCell
+
         queue.pop(currCell)
 
     revPath = {}
@@ -37,4 +40,4 @@ def ucs(graph, start, goal):
         revPath[ucsPath[cell]] = cell
         cell = ucsPath[cell]
 
-    return revPath, visited[goal]  # return the path and the total cost
+    return searchPath, ucsPath, revPath  # return the path and the total cost

@@ -56,4 +56,6 @@ def GBFS(maze, start, goal):
         path[reversedPath[cell]]=cell
         cell=reversedPath[cell]
 
+    #print(heuristic)
+    
     return searchPath, reversedPath, path

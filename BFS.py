@@ -3,7 +3,7 @@ def BFS(graph, node, goal):
     visited = [node]  # explored
     queue = [node]  # frontier
     bfsPath = {}  # A dictonary to find the path from start to goal
-    bSearch = []
+    bSearch = [node]
 
     while queue:
         currCell = queue.pop(0)

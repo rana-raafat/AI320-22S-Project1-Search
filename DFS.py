@@ -3,7 +3,7 @@ def DFS(graph, node, goal):
     visited = [node]  # visited
     stack = [node]  # stack
     dfsPath = {}  # A dictonary to find the path from start to goal
-    dSearch = []  # A list to show the searching
+    dSearch = [node]  # A list to show the searching
     while stack:
         currCell = stack.pop()
         dSearch.append(currCell)
