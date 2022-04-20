@@ -1,5 +1,7 @@
 from queue import PriorityQueue
 
+
+
 def h(currentCell, goalCell):
     x1, y1 = currentCell
     x2, y2 = goalCell
@@ -8,12 +10,15 @@ def h(currentCell, goalCell):
     
 def GBFS(maze, start, goal):
     
+    heuristic = {cell: float("inf") for cell in maze.grid}
+    heuristic[start] = h(start, goal)
+
     queue = PriorityQueue()
     queue.put((h(start, goal), start))
 
     reversedPath = {}
 
-    searchPath=[start]
+    searchPath = [start]
 
     while not queue.empty():
         currentCell = queue.get()[1]
@@ -39,16 +44,14 @@ def GBFS(maze, start, goal):
 
                 temp_h = h(childCell, goal)
 
-                if temp_h < h[childCell]:   
-                    h[childCell] = temp_h
+                if temp_h < heuristic[childCell]:   
+                    heuristic[childCell] = temp_h
                     queue.put((h(childCell, goal), childCell))
-                    
                     reversedPath[childCell] = currentCell
 
     path={}
 
     cell=goal
-
     while cell!=start:
         path[reversedPath[cell]]=cell
         cell=reversedPath[cell]

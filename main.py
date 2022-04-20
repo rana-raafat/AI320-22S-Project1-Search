@@ -9,6 +9,7 @@ from aStar import aStar
 from GBFS import GBFS
 
 
+
 def applyAlgorithm():  
     mazeWorld = maze()
     mazeWorld.CreateMaze(loadMaze='maze.csv')
@@ -31,8 +32,14 @@ def applyAlgorithm():
     mazeWorld.tracePath({b:reversedPath}, delay=111)
     mazeWorld.tracePath({c:path}, delay=111)
 
-    l=textLabel(mazeWorld,'A Star Path Length',len(path)+1)
-    l=textLabel(mazeWorld,'A Star Search Length',len(searchPath))
+    l=textLabel(mazeWorld,'Path Length',len(path)+1)     # we add the +1 because 'path' is a 
+                                                                # dictionary of the moves done, so  
+                                                                # the starting point is not counted
+    l=textLabel(mazeWorld,'Search Length',len(searchPath))
+
+    #print(searchPath)
+    #print(reversedPath)
+    #print(path)
 
     mazeWorld.run()
 

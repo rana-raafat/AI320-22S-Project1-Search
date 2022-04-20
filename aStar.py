@@ -1,13 +1,13 @@
 from queue import PriorityQueue
 
 
+
 """
     Remember:
         g(n) is the real cost from current cell to goal
         h(n) is the heuristic value; shortest straight line distance from current cell to goal
         f(n) = g(n) + h(n)
 """
-    
 
 #--- Calculating Heuristic Cost ---#
 def h(currentCell, goalCell):
@@ -18,12 +18,16 @@ def h(currentCell, goalCell):
     return (h)
     
 def aStar(maze, start, goal):
+    """
+        Note that:
+            maze.grid is an array provided by the pyamaze module with all maze cells
+    """
     #--- initialize g(n) as infinty for all maze cells ---#
-    g = {row: float("inf") for row in maze.grid}
+    g = {cell: float("inf") for cell in maze.grid}
     g[start] = 0
 
     #--- initialize g(n) as infinty for all maze cells ---#
-    f = {row: float("inf") for row in maze.grid}
+    f = {cell: float("inf") for cell in maze.grid}
     #--- no need to add g(start) here, as it is 0 ---#
     f[start] = h(start, goal)
     
@@ -41,11 +45,11 @@ def aStar(maze, start, goal):
     reversedPath = {}
 
     #--- ??? ---#
-    searchPath=[start]
+    searchPath = [start]
 
     while not queue.empty():
-        currentCell = queue.get()[2]   #--- get() retrieves the first queue element ---#
-                                    #--- as mentioned before, tuple of index 2 is the cell itself ---#
+        currentCell = queue.get()[2]    #--- get() retrieves the first queue element ---#
+                                        #--- as mentioned before, tuple of index 2 is the cell itself ---#
         #--- ??? ---#        
         searchPath.append(currentCell)
 
@@ -79,13 +83,13 @@ def aStar(maze, start, goal):
                 temp_g = g[currentCell] + 1
                 temp_f = temp_g + h(childCell, goal)
 
-                #--- if lower f(), update ??? ---# 
+                #--- if lower f() than stored, update ??? ---# 
                 if temp_f < f[childCell]:   
                     g[childCell] = temp_g
                     f[childCell] = temp_g + h(childCell, goal)
                     queue.put((f[childCell], h(childCell, goal), childCell))
-                    
-                    #--- ??? ---# 
+
+                    #--- dictionary; went to [key] cell from [value] cell??? ---# 
                     reversedPath[childCell] = currentCell
 
     #--- to get actual path, we must reverse the stored reversed path from above ---# 
@@ -93,10 +97,9 @@ def aStar(maze, start, goal):
 
     #--- we start looping on the reversed path starting from its initial point; the goal cell ---# 
     cell=goal
-
     #--- and until the start cell is reached ---# 
     while cell!=start:
-        #--- path[key] = value ??? ---# 
+        #--- went from [key] cell to [value] cell ??? ---# 
         path[reversedPath[cell]]=cell
         #--- iterate to next cell ??? ---# 
         cell=reversedPath[cell]
