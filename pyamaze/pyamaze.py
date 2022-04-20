@@ -280,7 +280,7 @@ class maze:
     '''
     This is the main class to create maze.
     '''
-    def __init__(self,rows=10,cols=10):
+    def __init__(self,rows=10,cols=10,window=None):
         '''
         rows--> No. of rows of the maze
         cols--> No. of columns of the maze
@@ -305,7 +305,7 @@ class maze:
         self.grid=[]
         self.path={} 
         self._cell_width=50  
-        self._win=None 
+        self._win=window 
         self._canvas=None
         self._agents=[]
         self.markCells=[]
