@@ -1,6 +1,5 @@
 
-def DFS(graph):
-    node = (graph.rows, graph.cols)  # start cell
+def DFS(graph, node, goal):
     visited = [node]  # visited
     stack = [node]  # stack
     dfsPath = {}  # A dictonary to find the path from start to goal
@@ -8,7 +7,7 @@ def DFS(graph):
     while stack:
         currCell = stack.pop()
         dSearch.append(currCell)
-        if currCell == graph._goal:
+        if currCell == goal:
             break
         poss = 0
         for d in 'ESNW':
@@ -33,7 +32,7 @@ def DFS(graph):
         if poss > 1:
             graph.markCells.append(currCell)
     revPath = {}  # to invert the path from start to goal
-    cell = graph._goal
+    cell = goal
     while cell != node:
         # We make the value of the dfsPath as key in the revPath
         revPath[dfsPath[cell]] = cell

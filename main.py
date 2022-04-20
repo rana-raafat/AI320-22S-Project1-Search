@@ -20,8 +20,8 @@ def applyAlgorithm():
     #searchPath, reversedPath, path = BFS(mazeWorld, start, end)
     #searchPath, reversedPath, path = DFS(mazeWorld, start, end)
     #searchPath, reversedPath, path = UCS(mazeWorld, start, end)
-    searchPath, reversedPath, path = aStar(mazeWorld, start, end)
-    #searchPath, reversedPath, path = GBFS(mazeWorld, start, end)
+    #searchPath, reversedPath, path = aStar(mazeWorld, start, end)
+    searchPath, reversedPath, path = GBFS(mazeWorld, start, end)
 
     a=agent(mazeWorld, x=start[0], y=start[1], footprints=True, color=COLOR.blue, goal=end)
     b=agent(mazeWorld, x=end[0], y=end[1], footprints=True, color=COLOR.blue, goal=start, filled=True)

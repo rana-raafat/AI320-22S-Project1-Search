@@ -1,6 +1,5 @@
-def BFS(graph):
+def BFS(graph, node, goal):
 
-    node = (graph.rows, graph.cols)  # start cell
     visited = [node]  # explored
     queue = [node]  # frontier
     bfsPath = {}  # A dictonary to find the path from start to goal
@@ -8,7 +7,7 @@ def BFS(graph):
 
     while queue:
         currCell = queue.pop(0)
-        if currCell == graph._goal:
+        if currCell == goal:
             break
         for d in 'ESNW':
             # maze_map is a dictionary {(1,1): {'E': 0, 'W': 0, 'N': 0, 'S': 1}, ....}
@@ -30,7 +29,7 @@ def BFS(graph):
                 bfsPath[neighbour] = currCell
                 bSearch.append(neighbour)
     revPath = {}  # to invert the path from start to goal
-    cell = graph._goal
+    cell = goal
     while cell != (graph.rows, graph.cols):
         # We make the value of the bfsPath as key in the revPath
         revPath[bfsPath[cell]] = cell
