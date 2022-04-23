@@ -597,7 +597,7 @@ class maze:
                     self.maze_map[tuple(c)]={'E':int(i[1]),'W':int(i[2]),'N':int(i[3]),'S':int(i[4])}
             self.path=BFS((self.rows,self.cols))
         self._drawMaze(self.theme)
-        agent(self,*self._goal,shape='square',filled=True,color=COLOR.green)
+        #agent(self,*self._goal,shape='square',filled=True,color=COLOR.green)
         if saveMaze:
             dt_string = datetime.datetime.now().strftime("%Y-%m-%d--%H-%M-%S")
             with open(f'maze--{dt_string}.csv','w',newline='') as f:
@@ -882,6 +882,7 @@ class maze:
         A method to trace path by agent
         You can provide more than one agent/path details
         '''
+        # print("trace working")
         self._tracePathList.append((d,kill,delay))
         if maze._tracePathList[0][0]==d: 
             for a,p in d.items():

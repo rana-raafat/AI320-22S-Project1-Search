@@ -30,7 +30,7 @@ def BFS(graph, node, goal):
                 bSearch.append(neighbour)
     revPath = {}  # to invert the path from start to goal
     cell = goal
-    while cell != (graph.rows, graph.cols):
+    while cell != node:
         # We make the value of the bfsPath as key in the revPath
         revPath[bfsPath[cell]] = cell
         # and the key of the bfsPath as the value in the revPath

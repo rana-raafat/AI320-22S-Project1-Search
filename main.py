@@ -11,8 +11,6 @@ from aStar import aStar
 from GBFS import GBFS
 
 
-# def close(win):
-#     win.destroy()
 
 
 def applyAlgorithm(button_id, buttonsWindow):
@@ -24,6 +22,7 @@ def applyAlgorithm(button_id, buttonsWindow):
     start = (mazeWorld.rows, mazeWorld.cols)
     #start = (6,1)
     end = (1, 1)
+    #end = (1,6) 
 
     if button_id == 'bfsButton':
         searchPath, reversedPath, path = BFS(mazeWorld, start, end)
@@ -37,11 +36,11 @@ def applyAlgorithm(button_id, buttonsWindow):
         searchPath, reversedPath, path = aStar(mazeWorld, start, end)
 
     a = agent(mazeWorld, x=start[0], y=start[1],
-              footprints=True, color=COLOR.blue, goal=end)
-    b = agent(mazeWorld, x=end[0], y=end[1], footprints=True,
-              color=COLOR.blue, goal=start, filled=True)
+                footprints=True, color=COLOR.blue, goal=end)
+    b = agent(mazeWorld, x=end[0], y=end[1], 
+                footprints=True, color=COLOR.blue, goal=start, filled=True)
     c = agent(mazeWorld, x=start[0], y=start[1],
-              footprints=True, color=COLOR.light, goal=end)
+                footprints=True, color=COLOR.light, goal=end)
 
     mazeWorld.tracePath({a: searchPath}, delay=333)
     mazeWorld.tracePath({b: reversedPath}, delay=111)
@@ -51,12 +50,13 @@ def applyAlgorithm(button_id, buttonsWindow):
     # we add the +1 because 'path' is a
     # dictionary of the moves done, so
     # the starting point is not counted
-    l = textLabel(mazeWorld, 'Search Length', len(searchPath))
+    l = textLabel(mazeWorld, 'Search Time', len(searchPath))
 
+    style = ttk.Style(mazeWorld._win)
+    style.theme_use('clam')
 
-    back = ttk.Button(mazeWorld._win, text="Back", command=lambda: MenuWindow(mazeWorld, a, b, c))
-    back.pack(side=RIGHT)
-
+    back = ttk.Button(mazeWorld._win, text="Back", command=lambda: MenuWindow(mazeWorld))
+    back.place(x=mazeWorld._win.winfo_screenwidth() - 100, y=mazeWorld._win.winfo_screenheight() - 100)
 
     # print(searchPath)
     # print(reversedPath)
@@ -65,23 +65,24 @@ def applyAlgorithm(button_id, buttonsWindow):
     mazeWorld.run()
 
 
-def MenuWindow(mazeWorld=None, a=None, b=None, c=None):
+def MenuWindow(mazeWorld=None):
     if(mazeWorld):
+        #del mazeWorld
         mazeWorld._win.destroy()
-        # mazeWorld._agents.clear()
-        #del mazeWorld, a, b, c
+        mazeWorld._tracePathList.clear()
+        mazeWorld._agents.clear()
 
     window = Tk()
     width = window.winfo_screenwidth()
     height = window.winfo_screenheight()
     window.geometry("%dx%d" % (width, height))
-    window.configure(background='#111')
+    window.configure(background='#1C1C1C')
 
     style = ttk.Style(window)
     style.theme_use('clam')
 
     label = Label(text='Choose an Algorithm to apply on maze')
-    label.configure(background='#111', font=30, fg='white')
+    label.configure(background='#1C1C1C', font=30, fg='white')
     label.pack(pady=15)
 
     bfsButton = ttk.Button(window,
@@ -109,11 +110,7 @@ def MenuWindow(mazeWorld=None, a=None, b=None, c=None):
                            command=lambda: applyAlgorithm("aStarButton", window))
     aStarButton.pack(pady=15)
 
-    # stop = ttk.Button(window, text="Exit", command=lambda: close(window))
-    # stop.pack(pady=15)
-
     window.mainloop()
 
 
 MenuWindow()
-# applyAlgorithm()
