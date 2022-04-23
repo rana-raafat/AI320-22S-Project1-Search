@@ -2,7 +2,7 @@ from tkinter import *
 import tkinter.ttk as ttk
 from turtle import color
 
-from pyamaze import maze, agent, COLOR, textLabel
+from pyamaze import *
 
 from BFS import BFS
 from DFS import DFS
@@ -11,8 +11,8 @@ from aStar import aStar
 from GBFS import GBFS
 
 
-def close(win):
-    win.destroy()
+# def close(win):
+#     win.destroy()
 
 
 def applyAlgorithm(button_id, buttonsWindow):
@@ -47,22 +47,30 @@ def applyAlgorithm(button_id, buttonsWindow):
     mazeWorld.tracePath({b: reversedPath}, delay=111)
     mazeWorld.tracePath({c: path}, delay=111)
 
-    # we add the +1 because 'path' is a
     l = textLabel(mazeWorld, 'Path Length', len(path)+1)
+    # we add the +1 because 'path' is a
     # dictionary of the moves done, so
     # the starting point is not counted
     l = textLabel(mazeWorld, 'Search Length', len(searchPath))
-    exit = ttk.Button(mazeWorld, text="Exit", command=lambda: MenuWindow())
-    exit.pack(side=RIGHT)
 
-# print(searchPath)
-# print(reversedPath)
-# print(path)
+
+    back = ttk.Button(mazeWorld._win, text="Back", command=lambda: MenuWindow(mazeWorld, a, b, c))
+    back.pack(side=RIGHT)
+
+
+    # print(searchPath)
+    # print(reversedPath)
+    # print(path)
 
     mazeWorld.run()
 
 
-def MenuWindow():
+def MenuWindow(mazeWorld=None, a=None, b=None, c=None):
+    if(mazeWorld):
+        mazeWorld._win.destroy()
+        # mazeWorld._agents.clear()
+        #del mazeWorld, a, b, c
+
     window = Tk()
     width = window.winfo_screenwidth()
     height = window.winfo_screenheight()
@@ -81,28 +89,28 @@ def MenuWindow():
                            command=lambda: applyAlgorithm("bfsButton", window))
     bfsButton.pack(pady=15)
 
-    bfsButton = ttk.Button(window,
+    dfsButton = ttk.Button(window,
                            text='DFS',
                            command=lambda: applyAlgorithm("dfsButton", window))
-    bfsButton.pack(pady=15)
+    dfsButton.pack(pady=15)
 
-    bfsButton = ttk.Button(window,
+    ucsButton = ttk.Button(window,
                            text='UCS',
                            command=lambda: applyAlgorithm("ucsButton", window))
-    bfsButton.pack(pady=15)
+    ucsButton.pack(pady=15)
 
-    bfsButton = ttk.Button(window,
+    gbfsButton = ttk.Button(window,
                            text='GBFS',
                            command=lambda: applyAlgorithm("gbfsButton", window))
-    bfsButton.pack(pady=15)
+    gbfsButton.pack(pady=15)
 
-    bfsButton = ttk.Button(window,
+    aStarButton = ttk.Button(window,
                            text='A*',
                            command=lambda: applyAlgorithm("aStarButton", window))
-    bfsButton.pack(pady=15)
+    aStarButton.pack(pady=15)
 
-    stop = ttk.Button(window, text="Exit", command=lambda: close(window))
-    stop.pack(pady=15)
+    # stop = ttk.Button(window, text="Exit", command=lambda: close(window))
+    # stop.pack(pady=15)
 
     window.mainloop()
 
