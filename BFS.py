@@ -7,6 +7,7 @@ def BFS(graph, node, goal):
 
     while queue:
         currCell = queue.pop(0)
+        bSearch.append(currCell)
         if currCell == goal:
             break
         for d in 'ESNW':
@@ -27,7 +28,7 @@ def BFS(graph, node, goal):
                 queue.append(neighbour)
                 # We store the currCell as value and the neighbour as key
                 bfsPath[neighbour] = currCell
-                bSearch.append(neighbour)
+
     revPath = {}  # to invert the path from start to goal
     cell = goal
     while cell != node:
