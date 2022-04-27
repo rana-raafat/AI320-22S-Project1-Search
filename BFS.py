@@ -1,12 +1,12 @@
 def BFS(graph, node, goal):
 
-    visited = [node]  # explored
+    l = [node]
     queue = [node]  # frontier
     bfsPath = {}  # A dictonary to find the path from start to goal
-    bSearch = [node]
+    bSearch = [node]  # explored
 
     while queue:
-        currCell = queue.pop(0)
+        currCell = queue.pop(0)  # it removes/retrieves from the start
         bSearch.append(currCell)
         if currCell == goal:
             break
@@ -22,9 +22,9 @@ def BFS(graph, node, goal):
                     neighbour = (currCell[0]+1, currCell[1])
                 elif d == 'N':
                     neighbour = (currCell[0]-1, currCell[1])
-                if neighbour in visited:
+                if neighbour in l:
                     continue
-                visited.append(neighbour)
+                l.append(neighbour)
                 queue.append(neighbour)
                 # We store the currCell as value and the neighbour as key
                 bfsPath[neighbour] = currCell
