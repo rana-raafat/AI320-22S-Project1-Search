@@ -1,7 +1,7 @@
 from queue import PriorityQueue
 
 
-
+#--- Heurtistic values are calculated using Manhattan distance ---#
 def h(currentCell, goalCell):
     x1, y1 = currentCell
     x2, y2 = goalCell
@@ -10,52 +10,67 @@ def h(currentCell, goalCell):
     
 def GBFS(maze, start, goal):
     
+    #--- initialize h(n) as infinity for all maze cells, ---#
+    #--- until calculated when getting added to priority queue ---#
     heuristic = {cell: float("inf") for cell in maze.grid}
     heuristic[start] = h(start, goal)
 
     queue = PriorityQueue()
-    queue.put((h(start, goal), start))
+    queue.put((heuristic[start], start))
 
-    reversedPath = {}
+    explored = []
 
-    searchPath = [start]
+    steps = {}
 
     while not queue.empty():
-        currentCell = queue.get()[1]
+        currentCell = queue.get()[1]    #--- removes/returns cell in start of priority queue; ---#
+                                        #--- which is the one with the least heuristic value ---#
                                    
-        searchPath.append(currentCell)
+        explored.append(currentCell)
 
         if currentCell == goal:
             break   
 
-        for wall in 'EWNS':
+        for wall in 'NEWS':
+            """
+                Note that:
+                    maze.maze_map is dictionary provided by the pyamaze module which has the
+                    information of each maze cell walls as following...
+                        (2, 1): {'E': 1, 'W': 0, 'N': 0, 'S': 1}
+                        
+                    value of 1 means wall is open, and 0 closed
+                    E: East, W: West, N: North, S: South
+            """
             if maze.maze_map[currentCell][wall]==True:
-                if wall=='E':
+                if wall=='N':
+                    childCell=(currentCell[0]-1,currentCell[1])
+                    
+                elif wall=='E':
                     childCell=(currentCell[0],currentCell[1]+1)
 
                 elif wall=='W':
                     childCell=(currentCell[0],currentCell[1]-1)
 
-                elif wall=='N':
-                    childCell=(currentCell[0]-1,currentCell[1])
-
                 elif wall=='S':
                     childCell=(currentCell[0]+1,currentCell[1])
 
-                temp_h = h(childCell, goal)
+                if childCell not in explored:   
+                    heuristic[childCell] = h(childCell, goal)
+                    queue.put((heuristic[childCell], childCell))
+                    #--- went to key [childCell] cell from value [currentCell] ---# 
+                    steps[childCell] = currentCell
 
-                if temp_h < heuristic[childCell]:   
-                    heuristic[childCell] = temp_h
-                    queue.put((h(childCell, goal), childCell))
-                    reversedPath[childCell] = currentCell
+    #--- backtrack steps to find path ---#
 
     path={}
 
     cell=goal
     while cell!=start:
-        path[reversedPath[cell]]=cell
-        cell=reversedPath[cell]
+        #--- went from key [parentCell] cell to value [cell] ---# 
+        path[steps[cell]]=cell
+        #--- parent cell next to be iterated ---#
+        cell=steps[cell]
 
-    #print(heuristic)
-    
-    return searchPath, reversedPath, path
+
+
+    return explored, steps, path

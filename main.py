@@ -12,7 +12,6 @@ from GBFS import GBFS
 
 
 
-
 def applyAlgorithm(button_id, buttonsWindow):
     buttonsWindow.destroy()
 
@@ -20,20 +19,38 @@ def applyAlgorithm(button_id, buttonsWindow):
     mazeWorld.CreateMaze(loadMaze='maze.csv')
 
     start = (mazeWorld.rows, mazeWorld.cols)
-    #start = (6,1)
     end = (1, 1)
-    #end = (1,6) 
 
     if button_id == 'bfsButton':
-        searchPath, reversedPath, path = BFS(mazeWorld, start, end)
+        searched, reversedPath, path = BFS(mazeWorld, start, end)
+        algorithm = 'BFS'
     elif button_id == 'dfsButton':
-        searchPath, reversedPath, path = DFS(mazeWorld, start, end)
+        searched, reversedPath, path = DFS(mazeWorld, start, end)
+        algorithm = 'DFS'
     elif button_id == 'ucsButton':
-        searchPath, reversedPath, path = ucs(mazeWorld, start, end)
+        searched, reversedPath, path = ucs(mazeWorld, start, end)
+        algorithm = 'UCS'
     elif button_id == 'gbfsButton':
-        searchPath, reversedPath, path = GBFS(mazeWorld, start, end)
+        searched, reversedPath, path = GBFS(mazeWorld, start, end)
+        algorithm = 'GBFS'       
     elif button_id == 'aStarButton':
-        searchPath, reversedPath, path = aStar(mazeWorld, start, end)
+        searched, reversedPath, path = aStar(mazeWorld, start, end)
+        algorithm = 'A*'       
+
+    l = textLabel(mazeWorld, 'Path Length', len(path)+1)
+    # we added the +1 because 'path' is a dictionary
+    # of the moves taken from start to goal, so
+    # the starting point itself is not counted
+    l = textLabel(mazeWorld, 'Search Time', len(searched))
+
+    style = ttk.Style(mazeWorld._win)
+    style.theme_use('clam')
+
+    label = Label(text=algorithm)
+    label.place(x=mazeWorld._win.winfo_screenwidth() - 800, y=mazeWorld._win.winfo_screenheight() - 100)
+
+    back = ttk.Button(mazeWorld._win, text="Back", command=lambda: MenuWindow(mazeWorld))
+    back.place(x=mazeWorld._win.winfo_screenwidth() - 100, y=mazeWorld._win.winfo_screenheight() - 100)
 
     a = agent(mazeWorld, x=start[0], y=start[1],
                 footprints=True, color=COLOR.blue, goal=end)
@@ -42,27 +59,12 @@ def applyAlgorithm(button_id, buttonsWindow):
     c = agent(mazeWorld, x=start[0], y=start[1],
                 footprints=True, color=COLOR.light, goal=end)
 
-    mazeWorld.tracePath({a: searchPath}, delay=333)
+    mazeWorld.tracePath({a: searched}, delay=333)
     mazeWorld.tracePath({b: reversedPath}, delay=111)
     mazeWorld.tracePath({c: path}, delay=111)
 
-    l = textLabel(mazeWorld, 'Path Length', len(path)+1)
-    # we add the +1 because 'path' is a
-    # dictionary of the moves done, so
-    # the starting point is not counted
-    l = textLabel(mazeWorld, 'Search Time', len(searchPath))
-
-    style = ttk.Style(mazeWorld._win)
-    style.theme_use('clam')
-
-    back = ttk.Button(mazeWorld._win, text="Back", command=lambda: MenuWindow(mazeWorld))
-    back.place(x=mazeWorld._win.winfo_screenwidth() - 100, y=mazeWorld._win.winfo_screenheight() - 100)
-
-    # print(searchPath)
-    # print(reversedPath)
-    # print(path)
-
     mazeWorld.run()
+
 
 
 def MenuWindow(mazeWorld=None):
@@ -70,12 +72,11 @@ def MenuWindow(mazeWorld=None):
         #del mazeWorld
         mazeWorld._win.destroy()
         mazeWorld._tracePathList.clear()
-        mazeWorld._agents.clear()
 
     window = Tk()
-    width = window.winfo_screenwidth()
-    height = window.winfo_screenheight()
-    window.geometry("%dx%d" % (width, height))
+    screenWidth = window.winfo_screenwidth()
+    screenHeight = window.winfo_screenheight()
+    window.geometry("%dx%d" % (screenWidth, screenHeight))
     window.configure(background='#1C1C1C')
 
     style = ttk.Style(window)
@@ -111,6 +112,7 @@ def MenuWindow(mazeWorld=None):
     aStarButton.pack(pady=15)
 
     window.mainloop()
+
 
 
 MenuWindow()

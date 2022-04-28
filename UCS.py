@@ -4,40 +4,41 @@ def ucs(graph, start, goal):
     # to set the cost of each cell by setting the value of each key(cell) to values from 1 to infinity
     queue = {n: float('inf') for n in graph.grid}
     queue[start] = 0  # we make the start cell's cost = 0
-    visited = {}
-    ucsPath = {}
-    searchPath = [start]
+    steps = {}
+    explored = []
     while queue:
-        # We get the cell with the minimum cost
+        # We get the cell key with the minimum cost value
         currCell = min(queue, key=queue.get)
-        visited[currCell] = queue[currCell]
-        searchPath.append(currCell)
+        explored.append(currCell)
         if currCell == goal:
             break
-        for d in 'ESNW':
+        for d in 'NEWS':
             if graph.maze_map[currCell][d] == True:
-                if d == 'E':
-                    neighbour = (currCell[0], currCell[1]+1)
-                elif d == 'W':
-                    neighbour = (currCell[0], currCell[1]-1)
-                elif d == 'S':
-                    neighbour = (currCell[0]+1, currCell[1])
-                elif d == 'N':
-                    neighbour = (currCell[0]-1, currCell[1])
-                if neighbour in visited:
+                if d=='N':
+                    neighbour=(currCell[0]-1,currCell[1])          
+                elif d=='E':
+                    neighbour=(currCell[0],currCell[1]+1)
+                elif d=='W':
+                    neighbour=(currCell[0],currCell[1]-1)
+                elif d=='S':
+                    neighbour=(currCell[0]+1,currCell[1])
+
+                if neighbour in explored:
                     continue
+
                 cost = queue[currCell]+1  # we calculate the new cost
 
+                #-- overwritten every time a shorter cost path is found --#
                 if cost < queue[neighbour]:
                     queue[neighbour] = cost
-                    ucsPath[neighbour] = currCell
-
+                    steps[neighbour] = currCell
+        #--- we must pop it at the end as we use it's cost to get neighbour's costs ---#
         queue.pop(currCell)
 
-    revPath = {}
+    path = {}
     cell = goal
     while cell != start:
-        revPath[ucsPath[cell]] = cell
-        cell = ucsPath[cell]
+        path[steps[cell]] = cell
+        cell = steps[cell]
 
-    return searchPath, ucsPath, revPath  # return the path and the total cost
+    return explored, steps, path  # return the path and the total cost
