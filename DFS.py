@@ -4,9 +4,9 @@ def DFS(graph, node, goal):
     stack = [node]  # frontier
     steps = {}  # A dictonary to find the steps from start to goal
     explored = []  # explored
-    
+
     while stack:
-        currCell = stack.pop()  # it removes/retrieves from the end
+        currCell = stack.pop()  # it removes/retrieves from the end of the stack
         explored.append(currCell)
         if currCell == goal:
             break
@@ -14,7 +14,7 @@ def DFS(graph, node, goal):
             Note that:
                 the order of the walls; here N->E->W->S, is what decides the order that the open cells
                 are going to be entered into stack with.
-                thus, it's what decides which one will be visited first (S->W->W->N).
+                thus, it's what decides which one will be visited first (S->W->E->N).
         """
         for d in 'NEWS':
             # maze_map is a dictionary {(1,1): {'E': 0, 'W': 0, 'N': 0, 'S': 1}, ....}

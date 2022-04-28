@@ -1,6 +1,5 @@
 from tkinter import *
 import tkinter.ttk as ttk
-from turtle import color
 
 from pyamaze import *
 
@@ -69,7 +68,6 @@ def applyAlgorithm(button_id, buttonsWindow):
 
 def MenuWindow(mazeWorld=None):
     if(mazeWorld):
-        #del mazeWorld
         mazeWorld._win.destroy()
         mazeWorld._tracePathList.clear()
 
