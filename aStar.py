@@ -90,13 +90,7 @@ def aStar(maze, start, goal):
                 #--- but note that it's just a temporary cost that may or may not be stored ---#
                 #--- in the dictionaries 'g'/'f'; as we don't store it right away but rather ---#
                 #--- check first if it has been visited before or not... ---#
-                """
-                    Note that:
-                        Heuristic values are made in a way where the condition below is ONLY
-                        true in case the child cell has never been visited before; f(n)=infinity.
-                        ...also known as the consistency function.
-                """ 
-                if temp_f < f[childCell]:   
+                if childCell not in explored:   
                     #--- if lower, update in dictionary and add to queue ---# 
                     g[childCell] = temp_g
                     f[childCell] = temp_g + h(childCell, goal)
